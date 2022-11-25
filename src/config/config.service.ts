@@ -9,6 +9,9 @@ export class ConfigService implements IConfigService {
 	private readonly config: DotenvParseOutput;
 	constructor(@inject(TYPES.ILogger) private logger: ILogger) {
 		const result: DotenvConfigOutput = config();
+		if(process.env) {
+			this.logger.log(process.env)
+		}
 		if (result.error) {
 			this.logger.error(`[ConfigService] File .env parse error or didn't find this file`);
 		} else {
