@@ -12,7 +12,7 @@ import { ParserController } from './parser/parser.controller';
 @injectable()
 export class App {
 	app: Express;
-	port: number;
+	port: number | string;
 	server: Server;
 
 	constructor(
@@ -21,7 +21,7 @@ export class App {
 		@inject(TYPES.ParserController) private parserController: ParserController
 	) {
 		this.app = express();
-		this.port = 8000;
+		this.port = process.env.PORT || 8000;
 	}
 
 	useMiddleware(): void {
