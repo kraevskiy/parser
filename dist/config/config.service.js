@@ -20,8 +20,12 @@ let ConfigService = class ConfigService {
     constructor(logger) {
         this.logger = logger;
         const result = (0, dotenv_1.config)();
-        console.log(process.env);
-        if (result.error) {
+        console.log(process.env.NODE_ENV);
+        console.log(process.env.NODE_ENV === 'production');
+        if (process.env.NODE_ENV === 'production') {
+            this.config = process.env;
+        }
+        else if (result.error) {
             this.logger.error(`[ConfigService] File .env parse error or didn't find this file`);
         }
         else {

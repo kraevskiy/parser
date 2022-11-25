@@ -9,6 +9,8 @@ export class ConfigService implements IConfigService {
 	private readonly config: DotenvParseOutput;
 	constructor(@inject(TYPES.ILogger) private logger: ILogger) {
 		const result: DotenvConfigOutput = config();
+		console.log(process.env.NODE_ENV);
+		console.log(process.env.NODE_ENV === 'production');
 		if(process.env.NODE_ENV === 'production') {
 			this.config = process.env as DotenvParseOutput;
 		} else if (result.error) {
