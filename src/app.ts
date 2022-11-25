@@ -32,6 +32,9 @@ export class App {
 
 	useRoutes(): void {
 		this.app.use('/parser', this.parserController.router);
+		this.app.use('/', (req, res) => {
+			res.json({ message: 'hello' });
+		});
 	}
 
 	public async init(): Promise<void> {

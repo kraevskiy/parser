@@ -38,7 +38,7 @@ let App = class App {
         this.configService = configService;
         this.parserController = parserController;
         this.app = (0, express_1.default)();
-        this.port = 8000;
+        this.port = process.env.PORT || 8000;
     }
     useMiddleware() {
         this.app.use((0, body_parser_1.json)());
@@ -47,6 +47,9 @@ let App = class App {
     }
     useRoutes() {
         this.app.use('/parser', this.parserController.router);
+        this.app.use('/', (req, res) => {
+            res.json({ message: 'hello' });
+        });
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
