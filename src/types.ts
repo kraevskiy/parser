@@ -5,4 +5,5 @@ export const TYPES = {
 	ParserService: Symbol.for('ParserService'),
 	ParserController: Symbol.for('ParserController'),
 	ExceptionFilter: Symbol.for('ExceptionFilter'),
+	Telegram: Symbol.for('Telegram'),
 };
