@@ -6,7 +6,6 @@ import { ILogger } from '../logger/logger.interface';
 import { IConfigService } from '../config/config.service.interface';
 import { IParserService } from '../parser/parser.service.interface';
 import texts from './texts';
-import { raw } from 'express';
 import { IParseType } from '../parser/parse.type';
 import { getMarkdownAfterParse } from './helpers';
 
@@ -90,12 +89,12 @@ export class Telegram {
 		this.start();
 		this.message();
 		this.help();
-		this.bot.start()
-			.then(res => {
-				console.log(res);
-			})
+		this.bot.start({
+			onStart: () => this.logger.log('[Telegram] start')
+		})
 			.catch(e => {
-				console.log(e);
+				console.log('bot');
+				this.logger.error('[Telegram] error')
 			})
 	}
 
