@@ -33,7 +33,7 @@ async function bootstrap(): Promise<IBootstrapReturn> {
 	appContainer.load(appBindings);
 	const app = appContainer.get<App>(TYPES.Application);
 	const bot = appContainer.get<Telegram>(TYPES.Telegram);
-	bot.init();
+	await bot.init();
 	await app.init();
 	return { appContainer, app };
 }
