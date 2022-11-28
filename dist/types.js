@@ -8,5 +8,6 @@ exports.TYPES = {
     ParserService: Symbol.for('ParserService'),
     ParserController: Symbol.for('ParserController'),
     ExceptionFilter: Symbol.for('ExceptionFilter'),
+    Telegram: Symbol.for('Telegram'),
 };
 //# sourceMappingURL=types.js.map

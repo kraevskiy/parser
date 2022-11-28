@@ -20,8 +20,6 @@ let ConfigService = class ConfigService {
     constructor(logger) {
         this.logger = logger;
         const result = (0, dotenv_1.config)();
-        console.log(process.env.NODE_ENV);
-        console.log(process.env.NODE_ENV === 'production');
         if (process.env.NODE_ENV === 'production') {
             this.config = process.env;
         }

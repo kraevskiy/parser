@@ -92,10 +92,10 @@ export class Telegram {
 		this.bot.start({
 			onStart: () => this.logger.log('[Telegram] start')
 		})
-			.catch(e => {
-				console.log('bot');
-				this.logger.error('[Telegram] error')
-			})
+
+		this.bot.catch(e => {
+			this.logger.error('[Telegram] error', e);
+		})
 	}
 
 	close() {

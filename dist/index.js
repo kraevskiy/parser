@@ -18,6 +18,7 @@ const config_service_1 = require("./config/config.service");
 const parser_controller_1 = require("./parser/parser.controller");
 const parser_service_1 = require("./parser/parser.service");
 const exception_filter_1 = require("./errors/exception.filter");
+const telegram_1 = require("./telegram/telegram");
 exports.appBindings = new inversify_1.ContainerModule((bind) => {
     bind(types_1.TYPES.ILogger).to(logger_service_1.LoggerService).inSingletonScope();
     bind(types_1.TYPES.ConfigService).to(config_service_1.ConfigService).inSingletonScope();
@@ -25,14 +26,17 @@ exports.appBindings = new inversify_1.ContainerModule((bind) => {
     bind(types_1.TYPES.ParserService).to(parser_service_1.ParserService).inSingletonScope();
     bind(types_1.TYPES.ExceptionFilter).to(exception_filter_1.ExceptionFilter);
     bind(types_1.TYPES.Application).to(app_1.App);
+    bind(types_1.TYPES.Telegram).to(telegram_1.Telegram);
 });
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const appContainer = new inversify_1.Container();
         appContainer.load(exports.appBindings);
         const app = appContainer.get(types_1.TYPES.Application);
+        const bot = appContainer.get(types_1.TYPES.Telegram);
+        yield bot.init();
         yield app.init();
-        return { appContainer, app };
+        return { appContainer, app, bot };
     });
 }
 exports.boot = bootstrap();
