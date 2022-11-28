@@ -16,6 +16,7 @@ import { Telegram } from './telegram/telegram';
 export interface IBootstrapReturn {
 	appContainer: Container;
 	app: App;
+	bot: Telegram;
 }
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
@@ -35,7 +36,7 @@ async function bootstrap(): Promise<IBootstrapReturn> {
 	const bot = appContainer.get<Telegram>(TYPES.Telegram);
 	await bot.init();
 	await app.init();
-	return { appContainer, app };
+	return { appContainer, app, bot };
 }
 
 export const boot = bootstrap();
