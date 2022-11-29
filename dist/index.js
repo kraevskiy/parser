@@ -33,10 +33,8 @@ function bootstrap() {
         const appContainer = new inversify_1.Container();
         appContainer.load(exports.appBindings);
         const app = appContainer.get(types_1.TYPES.Application);
-        const bot = appContainer.get(types_1.TYPES.Telegram);
-        yield bot.init();
         yield app.init();
-        return { appContainer, app, bot };
+        return { appContainer, app };
     });
 }
 exports.boot = bootstrap();

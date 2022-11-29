@@ -32,11 +32,14 @@ require("reflect-metadata");
 const body_parser_1 = require("body-parser");
 const auth_middleware_1 = require("./common/auth.middleware");
 const parser_controller_1 = require("./parser/parser.controller");
+const grammy_1 = require("grammy");
+const telegram_1 = require("./telegram/telegram");
 let App = class App {
-    constructor(logger, configService, parserController) {
+    constructor(logger, configService, parserController, telegram) {
         this.logger = logger;
         this.configService = configService;
         this.parserController = parserController;
+        this.telegram = telegram;
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || 8000;
     }
@@ -51,10 +54,14 @@ let App = class App {
             res.json({ message: 'hello' });
         });
     }
+    useBot() {
+        this.app.use((0, grammy_1.webhookCallback)(this.telegram.init()));
+    }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             this.useMiddleware();
             this.useRoutes();
+            this.useBot();
             this.server = this.app.listen(this.port, () => {
                 this.logger.log(`Server start http://localhost:${this.port}`);
             });
@@ -69,7 +76,9 @@ App = __decorate([
     __param(0, (0, inversify_1.inject)(types_1.TYPES.ILogger)),
     __param(1, (0, inversify_1.inject)(types_1.TYPES.ConfigService)),
     __param(2, (0, inversify_1.inject)(types_1.TYPES.ParserController)),
-    __metadata("design:paramtypes", [Object, Object, parser_controller_1.ParserController])
+    __param(3, (0, inversify_1.inject)(types_1.TYPES.Telegram)),
+    __metadata("design:paramtypes", [Object, Object, parser_controller_1.ParserController,
+        telegram_1.Telegram])
 ], App);
 exports.App = App;
 //# sourceMappingURL=app.js.map

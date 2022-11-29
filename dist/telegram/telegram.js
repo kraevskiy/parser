@@ -106,6 +106,7 @@ let Telegram = class Telegram {
         this.bot.catch(e => {
             this.logger.error('[Telegram] error', e);
         });
+        return this.bot;
     }
     close() {
         process.once('SIGINT', () => this.bot.stop());
