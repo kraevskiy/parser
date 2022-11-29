@@ -32,11 +32,14 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 async function bootstrap(): Promise<IBootstrapReturn> {
 	const appContainer = new Container();
 	appContainer.load(appBindings);
-	const app = appContainer.get<App>(TYPES.Application);
+	const appParser = appContainer.get<App>(TYPES.Application);
 	const bot = appContainer.get<Telegram>(TYPES.Telegram);
-	await bot.init();
-	await app.init();
-	return { appContainer, app, bot };
+	async function app () {
+		await bot.init();
+		await appParser.init();
+	}
+	// @ts-ignore
+	return { appContainer, app };
 }
 
 export const boot = bootstrap();
