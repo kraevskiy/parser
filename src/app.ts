@@ -33,11 +33,11 @@ export class App {
 		this.app.use(json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('AUTH_JWT_TOKEN'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
+		this.app.use('/telegram', webhookCallback(this.bot, 'express'))
 	}
 
 	useRoutes(): void {
 		this.app.use('/parser', this.parserController.router);
-		this.app.use('/telegram', webhookCallback(this.bot, 'express'))
 		this.app.use('/', (req, res) => {
 			res.json({ message: 'hello' });
 		});
