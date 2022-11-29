@@ -21,7 +21,7 @@ export class ParserController extends BaseController implements IParserControlle
 		this.bindRoutes([
 			{
 				path: '/parse',
-				method: 'get',
+				method: 'post',
 				func: this.parse,
 				middlewares: [new AuthGuard(), new ValidateMiddleware(ParseDto)]
 			},

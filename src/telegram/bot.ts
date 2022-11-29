@@ -41,13 +41,12 @@ const sendMediaGroup = async (chat_id: number | string, data: IParseType): Promi
 }
 
 const parseInfo = async (vin: string): Promise<IParseType | null> => {
-	const res = await axios.get('https://parser-ten.vercel.app/parser/parse', {
+	const res = await axios.post('https://parser-ten.vercel.app/parser/parse', {
+		vin
+	},{
 		headers: {
 			'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
 			'content-type': 'application/json'
-		},
-		data: {
-			vin
 		}
 	});
 	if (res.data) {
