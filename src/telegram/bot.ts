@@ -8,7 +8,7 @@ import axios from 'axios';
 
 config();
 console.log('bot');
-export const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN as string);
+const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN as string);
 
 const menu = new Menu('my-menu-identifier')
 	.text(texts.infoByVin, (ctx) => ctx.reply(texts.pasteVin)).row()
@@ -72,3 +72,6 @@ bot.on('message', async (ctx) => {
 		}
 	}
 });
+
+
+export default bot;

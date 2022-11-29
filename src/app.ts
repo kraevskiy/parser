@@ -10,7 +10,7 @@ import { IConfigService } from './config/config.service.interface';
 import { ParserController } from './parser/parser.controller';
 import { webhookCallback } from 'grammy'
 import { Telegram } from './telegram/telegram';
-import { bot } from './telegram/bot';
+import bot from './telegram/bot';
 
 @injectable()
 export class App {
