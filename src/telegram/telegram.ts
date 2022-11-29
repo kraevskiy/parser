@@ -1,4 +1,4 @@
-import { Bot, Keyboard } from 'grammy';
+import { Bot, Keyboard, webhookCallback } from 'grammy';
 import { Menu } from "@grammyjs/menu";
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';

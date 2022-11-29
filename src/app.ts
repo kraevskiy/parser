@@ -35,21 +35,24 @@ export class App {
 
 	useRoutes(): void {
 		this.app.use('/parser', this.parserController.router);
+		this.app.use('/telegram', webhookCallback(this.telegram.init(), 'express'))
+
 		this.app.use('/', (req, res) => {
 			res.json({ message: 'hello' });
 		});
 	}
 
 	useBot(): void {
-		this.app.use(webhookCallback(this.telegram.init()));
+		this.telegram.init();
 	}
 
 	public async init(): Promise<void> {
 		this.useMiddleware();
 		this.useRoutes();
 		this.useBot();
-		this.server = this.app.listen(this.port, () => {
+		this.server = this.app.listen(this.port, async () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
+			await this.telegram.bot.api.setWebhook('https://parser-ten.vercel.app/telegram')
 		});
 
 	}
