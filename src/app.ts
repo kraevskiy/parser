@@ -8,9 +8,6 @@ import { json } from 'body-parser';
 import { AuthMiddleware } from './common/auth.middleware';
 import { IConfigService } from './config/config.service.interface';
 import { ParserController } from './parser/parser.controller';
-import { webhookCallback } from 'grammy'
-import { Telegram } from './telegram/telegram';
-import { bot } from './telegram/bot';
 
 @injectable()
 export class App {
@@ -22,7 +19,6 @@ export class App {
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.ParserController) private parserController: ParserController,
-		@inject(TYPES.Telegram) private telegram: Telegram,
 	) {
 		this.app = express();
 		this.port = process.env.PORT || 8000;
