@@ -8,6 +8,8 @@ import { json } from 'body-parser';
 import { AuthMiddleware } from './common/auth.middleware';
 import { IConfigService } from './config/config.service.interface';
 import { ParserController } from './parser/parser.controller';
+import { webhookCallback } from "grammy"
+import { Telegram } from './telegram/telegram';
 
 @injectable()
 export class App {
@@ -18,7 +20,8 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
-		@inject(TYPES.ParserController) private parserController: ParserController
+		@inject(TYPES.ParserController) private parserController: ParserController,
+		@inject(TYPES.Telegram) private telegram: Telegram,
 	) {
 		this.app = express();
 		this.port = process.env.PORT || 8000;
@@ -37,12 +40,18 @@ export class App {
 		});
 	}
 
+	useBot(): void {
+		this.app.use(webhookCallback(this.telegram.init()));
+	}
+
 	public async init(): Promise<void> {
 		this.useMiddleware();
 		this.useRoutes();
+		this.useBot();
 		this.server = this.app.listen(this.port, () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
 		});
+
 	}
 
 	public close(): void {

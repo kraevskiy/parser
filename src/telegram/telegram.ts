@@ -96,6 +96,8 @@ export class Telegram {
 		this.bot.catch(e => {
 			this.logger.error('[Telegram] error', e);
 		})
+
+		return this.bot;
 	}
 
 	close() {

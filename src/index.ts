@@ -11,12 +11,10 @@ import { IParserService } from './parser/parser.service.interface';
 import { ParserService } from './parser/parser.service';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ExceptionFilter } from './errors/exception.filter';
-import { Telegram } from './telegram/telegram';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
 	app: App;
-	bot: Telegram;
 }
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
@@ -26,19 +24,13 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IParserService>(TYPES.ParserService).to(ParserService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
 	bind<App>(TYPES.Application).to(App);
-	bind<Telegram>(TYPES.Telegram).to(Telegram);
 });
 
 async function bootstrap(): Promise<IBootstrapReturn> {
 	const appContainer = new Container();
 	appContainer.load(appBindings);
-	const appParser = appContainer.get<App>(TYPES.Application);
-	const bot = appContainer.get<Telegram>(TYPES.Telegram);
-	async function app () {
-		await bot.init();
-		await appParser.init();
-	}
-	// @ts-ignore
+	const app = appContainer.get<App>(TYPES.Application);
+	await app.init();
 	return { appContainer, app };
 }
 
