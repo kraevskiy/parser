@@ -36,7 +36,7 @@ export class App {
 
 	useRoutes(): void {
 		this.app.use('/parser', this.parserController.router);
-		this.app.use('/tel', webhookCallback(bot, 'express'))
+		// this.app.use('/tel', webhookCallback(bot, 'express'))
 		this.app.use('/', (req, res) => {
 			res.json({ message: 'hello' });
 		});
@@ -49,7 +49,7 @@ export class App {
 		this.server = this.app.listen(this.port, async () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
 			if(process.env.NODE_ENV === 'production') {
-				await bot.api.setWebhook('https://parser-ten.vercel.app/tel');
+				// await bot.api.setWebhook('https://parser-ten.vercel.app/tel');
 			}
 		});
 
