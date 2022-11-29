@@ -52,7 +52,9 @@ export class App {
 		this.useBot();
 		this.server = this.app.listen(this.port, async () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
-			await this.telegram.bot.api.setWebhook('https://parser-ten.vercel.app/telegram')
+			if(process.env.NODE_ENV === 'production') {
+				await this.telegram.bot.api.setWebhook('https://parser-ten.vercel.app/telegram')
+			}
 		});
 
 	}
