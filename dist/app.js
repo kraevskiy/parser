@@ -34,6 +34,7 @@ const auth_middleware_1 = require("./common/auth.middleware");
 const parser_controller_1 = require("./parser/parser.controller");
 const grammy_1 = require("grammy");
 const telegram_1 = require("./telegram/telegram");
+const bot_1 = require("./telegram/bot");
 let App = class App {
     constructor(logger, configService, parserController, telegram) {
         this.logger = logger;
@@ -42,16 +43,15 @@ let App = class App {
         this.telegram = telegram;
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || 8000;
-        this.bot = this.telegram.init();
     }
     useMiddleware() {
         this.app.use((0, body_parser_1.json)());
         const authMiddleware = new auth_middleware_1.AuthMiddleware(this.configService.get('AUTH_JWT_TOKEN'));
         this.app.use(authMiddleware.execute.bind(authMiddleware));
+        this.app.use('/telegram', (0, grammy_1.webhookCallback)(bot_1.bot, 'express'));
     }
     useRoutes() {
         this.app.use('/parser', this.parserController.router);
-        this.app.use('/telegram', (0, grammy_1.webhookCallback)(this.bot, 'express'));
         this.app.use('/', (req, res) => {
             res.json({ message: 'hello' });
         });
@@ -63,7 +63,7 @@ let App = class App {
             this.server = this.app.listen(this.port, () => __awaiter(this, void 0, void 0, function* () {
                 this.logger.log(`Server start http://localhost:${this.port}`);
                 if (process.env.NODE_ENV === 'production') {
-                    console.log(process.env);
+                    yield bot_1.bot.api.setWebhook('https://parser-ten.vercel.app/telegram');
                 }
             }));
         });
