@@ -32,7 +32,7 @@ export class App {
 		this.app.use(json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('AUTH_JWT_TOKEN'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
-		this.app.use(webhookCallback(bot, 'express'))
+		this.app.use('/t', webhookCallback(bot, 'express'))
 	}
 
 	useRoutes(): void {
@@ -49,7 +49,7 @@ export class App {
 		this.server = this.app.listen(this.port, async () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
 			if(process.env.NODE_ENV === 'production') {
-				await bot.api.setWebhook('https://parser-ten.vercel.app/telegram');
+				await bot.api.setWebhook('https://parser-ten.vercel.app/t');
 			}
 		});
 
