@@ -37,7 +37,7 @@ let ParserController = class ParserController extends base_controller_1.BaseCont
         this.bindRoutes([
             {
                 path: '/parse',
-                method: 'get',
+                method: 'post',
                 func: this.parse,
                 middlewares: [new auth_guard_1.AuthGuard(), new validate_middleware_1.ValidateMiddleware(parse_dto_1.ParseDto)]
             },
