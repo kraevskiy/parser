@@ -7,8 +7,7 @@ import { getMarkdownAfterParse } from './helpers';
 import axios from 'axios';
 
 config();
-console.log('bot');
-const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN as string);
+export const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN as string);
 
 const menu = new Menu('my-menu-identifier')
 	.text(texts.infoByVin, (ctx) => ctx.reply(texts.pasteVin)).row()

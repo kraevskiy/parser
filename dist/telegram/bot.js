@@ -80,4 +80,5 @@ exports.bot.on('message', (ctx) => __awaiter(void 0, void 0, void 0, function* (
         }
     }
 }));
+exports.default = exports.bot;
 //# sourceMappingURL=bot.js.map

@@ -48,7 +48,7 @@ let App = class App {
         this.app.use((0, body_parser_1.json)());
         const authMiddleware = new auth_middleware_1.AuthMiddleware(this.configService.get('AUTH_JWT_TOKEN'));
         this.app.use(authMiddleware.execute.bind(authMiddleware));
-        this.app.use('/telegram', (0, grammy_1.webhookCallback)(bot_1.bot, 'express'));
+        this.app.use((0, grammy_1.webhookCallback)(bot_1.bot, 'express'));
     }
     useRoutes() {
         this.app.use('/parser', this.parserController.router);

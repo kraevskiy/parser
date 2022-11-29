@@ -10,7 +10,7 @@ import { IConfigService } from './config/config.service.interface';
 import { ParserController } from './parser/parser.controller';
 import { webhookCallback } from 'grammy'
 import { Telegram } from './telegram/telegram';
-import bot from './telegram/bot';
+import { bot } from './telegram/bot';
 
 @injectable()
 export class App {
@@ -32,7 +32,7 @@ export class App {
 		this.app.use(json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('AUTH_JWT_TOKEN'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));
-		this.app.use('/telegram', webhookCallback(bot, 'express'))
+		this.app.use(webhookCallback(bot, 'express'))
 	}
 
 	useRoutes(): void {
@@ -49,7 +49,6 @@ export class App {
 		this.server = this.app.listen(this.port, async () => {
 			this.logger.log(`Server start http://localhost:${this.port}`);
 			if(process.env.NODE_ENV === 'production') {
-				console.log(1111111);
 				await bot.api.setWebhook('https://parser-ten.vercel.app/telegram');
 			}
 		});
