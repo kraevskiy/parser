@@ -1,5 +1,5 @@
-import { IParseType } from './parse.type';
+import { IParseError, IParseSuccess } from './parse.type';
 
 export interface IParserService {
-	parse: (vin: string) => Promise<IParseType>
+	parse: (vin: string) => Promise<IParseError | IParseSuccess>
 }

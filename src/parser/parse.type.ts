@@ -11,9 +11,17 @@ export type IParseTypeTable = {
 export type TParseData = {
 	tables: IParseTypeTable[];
 	photos: string[];
+	allPhotos: string | null;
 }
 
-export interface IParseType {
+export interface TParseAnswer {
 	vin: string;
+}
+
+export interface IParseError extends TParseAnswer {
+	error: string;
+}
+
+export interface IParseSuccess extends TParseAnswer {
 	data: TParseData;
 }
