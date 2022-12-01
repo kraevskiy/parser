@@ -6,7 +6,7 @@ import { ILogger } from '../logger/logger.interface';
 import { IConfigService } from '../config/config.service.interface';
 import { IParserService } from '../parser/parser.service.interface';
 import texts from './texts';
-import { IParseType } from '../parser/parse.type';
+import { IParseError, IParseSuccess } from '../parser/parse.type';
 import { getMarkdownAfterParse } from './helpers';
 
 @injectable()
@@ -36,13 +36,13 @@ export class Telegram {
 		this.bot.command('help', async (ctx) => await ctx.reply(texts.do, { reply_markup: this.menu }));
 	}
 
-	async sendMarkdownTemplate(chat_id: number | string, data: IParseType): Promise<void> {
+	async sendMarkdownTemplate(chat_id: number | string, data: IParseSuccess): Promise<void> {
 		await this.bot.api.sendMessage(chat_id, getMarkdownAfterParse(data), {
 			parse_mode: 'HTML'
 		});
 	}
 
-	async sendMediaGroup(chat_id: number | string, data: IParseType): Promise<void> {
+	async sendMediaGroup(chat_id: number | string, data: IParseSuccess): Promise<void> {
 		const promises = []
 		const chunkSize = 10;
 		for (let i = 0; i < data.data.photos.length; i += chunkSize) {
@@ -65,9 +65,11 @@ export class Telegram {
 			} else {
 				await ctx.reply(texts.waitPls);
 				const res = await this.parseService.parse(message.text);
-				await this.sendMarkdownTemplate(message.chat.id, res);
-				await ctx.reply(texts.waitPhotos);
-				await this.sendMediaGroup(message.chat.id, res);
+				if('data' in res) {
+					await this.sendMarkdownTemplate(message.chat.id, res);
+					await ctx.reply(texts.waitPhotos);
+					await this.sendMediaGroup(message.chat.id, res);
+				}
 			}
 		});
 	}
