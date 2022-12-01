@@ -63,6 +63,7 @@ export class ParserService implements IParserService {
 			})
 
 			const linkPhotosAll = document.querySelector(constants.photosDownloadSelector) as HTMLAnchorElement;
+			this.logger.log('[ ParseService ]: linkPhotosAll ' + linkPhotosAll)
 			if(linkPhotosAll) {
 				result.allPhotos = linkPhotosAll.href;
 			}
@@ -73,7 +74,6 @@ export class ParserService implements IParserService {
 	async parse(vin: string): Promise<IParseSuccess | IParseError> {
 		const content = await this.getWebsiteContent(vin);
 		const domParsed = this.parseDom(content);
-		this.logger.log('[ParserService] parse', 'vin', vin);
 
 		if (typeof domParsed === 'string'){
 			return Promise.resolve({vin, error: domParsed});
